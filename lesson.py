@@ -34,7 +34,7 @@ for index, row in selection.iterrows():
     poly_area = row['geometry'].area
     # {0} and {1:.3f} are text formatting
     # curly brackets take .format inputs and print them
-    print('Polygon area at index {0} is: {1:.2f}'.format(index, poly_area))
+    print('Polygon area at index {0} is: {1:.2f}.'.format(index, poly_area))
     
 # create a new column of individual polygon areas
 selection['area'] = selection.area
@@ -58,4 +58,44 @@ coordinates = [(24.950899, 60.169158), (24.953492, 60.169158), (24.953510, 60.17
 poly = Polygon(coordinates)
                 
 # insert polygom data into geodataFrame using .loc
-newdata.loc[0, 'geometry'] = poly 
+newdata.loc[0, 'geometry'] = poly
+
+# add description
+newdata.loc[0, 'location'] = 'Senaatintori'
+
+# specify projection for newdata
+newdata.crs = from_epsg(4326)
+
+# export the data
+outfp = r'F:\GS\harrisab2\S18\GeoViz\autoGIS_2'
+
+# write data into new shapefie
+newdata.to_file(outfp)
+
+# HOW TO SAVE MULTIPLE SHAPEFILES
+
+# Use .groupby() to group column BINOMIAL
+grouped = data.groupby('BINOMIAL')
+
+# output folder for multiple shapefiles
+groupfp = r'F:\GS\harrisab2\S18\GeoViz\autoGIS_2/fishFolder'
+
+# import os to parse
+import os
+
+# iterate over the dataframe (key = fish name) rows = all rows with that fish name
+for key, rows in grouped:
+    # create output with {0} (start at first index) and replace blank space with underscore
+    output_name = "{0}.shp".format(key.replace(' ', '_'))
+    # create a new folder in the groupfp file path
+    output_path = os.path.join(groupfp, output_name)
+    rows.to_file(output_path)
+    
+    
+
+
+    
+
+
+
+ 
