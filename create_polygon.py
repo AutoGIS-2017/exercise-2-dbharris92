@@ -23,30 +23,33 @@ ycoords = [63.748023986816406, 62.90789794921875, 60.511383056640625, 60.4449958
 # Coordinate pair can be either a tuple or a list.
 # The first coordinate pair in the 'coordpairs' -list should look like: (29.99671173095703, 63.748023986816406)
 # Hint: you might want to iterate over items in the lists using a for-loop
-
-coordpairs =
-
+coordpairs = []
+for x,y in zip(xcoords, ycoords):
+    coordpairs.append((x,y))
+         
+        
 # P2. Create a shapely Polygon using the 'coordpairs' -list
 # ------------------------------------------------------------------------
-poly =
+poly = Polygon(coordpairs)
 
 # P3. Create an empty GeoDataFrame
 # ---------------------------------
-geo =
+geo = gpd.GeoDataFrame()
 
 # P4. Insert our 'poly' -polygon into the 'geo' GeoDataFrame using a column name 'geometry' 
 # ------------------------------------------------------------------------------------------
 # Hint: Take advantage of .loc -funtion
-geo.loc
+geo.loc[0, 'geometry'] = poly
 
 # P5. Save the GeoDataFrame into a new Shapefile called 'polygon.shp'
 # --------------------------------------------------------------------
 # Note: you do not need to define the coordinate reference system at this time
-
+outshp = r'F:\GS\harrisab2\S18\GeoViz\autoGIS_2\polygon.shp'
+geo.to_file(outshp)
 
 # P6. Plot the polygon using taking advantage of the .plot() -function in GeoDataFrame. Save a PNG figure out of your plot and upload it to your GitHub repository.
 # -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+geo.plot()
 
 
 
